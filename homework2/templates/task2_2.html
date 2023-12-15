@@ -13,6 +13,21 @@
     где будет выведено введенное число и его квадрат. </p>
     <hr>
 </div>
+<br>
+<div class="container">
+    <form action='/task2_2' method='post'>
+        <input type="text" name="number" placeholder="Ведите число">
+        <input type="submit"  >
+    </form>
+</div>
+<br>
+<div class="container">
+    {% if num %}
+    <h4>Квадрат числа {{ num }} = {{ result }}</h4>
+    {% else %}
+    <h4> {{ error }} </h4>
+    {% endif %}
+</div>
 {% endblock %}
 
 

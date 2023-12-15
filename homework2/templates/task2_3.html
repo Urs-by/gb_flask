@@ -13,6 +13,23 @@
         где будет выведено "Привет, {имя}!".</p>
     <hr>
 </div>
+<br>
+<div class="container">
+    <form action='/task2_3' method="post">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <input   type="text" name="username" placeholder="Имя">
+        <input   type="submit" >
+    </form>
+</div>
 {% endblock %}
 
 

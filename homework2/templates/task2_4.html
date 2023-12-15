@@ -16,6 +16,27 @@
         <br>на страницу ввода имени и электронной почты.</p>
     <hr>
 </div>
+<br>
+<div class="container">
+    <form action='/task2_4' method="post">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <input type="text" name="username" placeholder="Имя">
+        <input type="email" name="email" placeholder="E-mail">
+        <input type="submit">
+    </form>
+    <br>
+    {% if cook %}
+        <h4> {{ cook }}</h4>
+    {% endif %}
+</div>
 {% endblock %}
 
 
