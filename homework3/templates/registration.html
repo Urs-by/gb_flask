@@ -6,29 +6,27 @@
 
 {% block content %}
     <div class="container">
-        <form action='/index3' method="post">
+        <h3>Регистрация пользователя</h3>
+        <h4>Заполните поля</h4>
+        <form method="POST" action="registration">
             {{ form.csrf_token }}
+            {% for field in form if field.name != 'csrf_token' %}
             <p>
-                {{ form.username.label }}<br>
-                {{ form.username(size=32) }}
+                {{ field.label }}<br>
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="alert alert-danger">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
             </p>
-            <p>
-                {{ form.lastname.label }}<br>
-                {{ form.lastname(size=32) }}
-            </p>
-            <p>
-                {{ form.email.label }}<br>
-                {{ form.email(size=32) }}
-            </p>
-            <p>
-                {{ form.password.label }}<br>
-                {{ form.password(size=32) }}
-            </p>
-            <p>
-                <input   type="submit"  value="Зарегистрироваться">
-            </p>
+            {% endfor %}
 
+            <p>
+            <input type="submit" value="Зарегистрироваться">
+            </p>
         </form>
     </div>
-
 {% endblock %}

@@ -1,4 +1,4 @@
-from homework3.task3 import app
+from task3 import app
 
 
 if __name__ == "__main__":
