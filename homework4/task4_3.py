@@ -1,42 +1,29 @@
 import asyncio
-import random
+
 import time
+from ran_list import random_list, split_list
+
+count_process = 5
+result_list = split_list(random_list, count_process)
 
 summa = 0
-random_list = [random.randint(1, 100) for _ in range(1, 10000)]
 
 
-#test_list = [1, 2, 3, 4, 5, 6, 7,8,9 ]
-
-async def increment(start, stop):
+async def increment(part_list: list):
     global summa
-    for i in random_list[start:stop]:
+    for i in part_list:
         summa += i
         await asyncio.sleep(0)
     print(f"Значение счетчика: {summa:_}")
 
 
-count_threads = 5
-
-part_size = len(random_list) // count_threads
-rest = len(random_list) % count_threads
-
-
 async def main():
-    start = 0
-    tasks = []
-    task = asyncio.ensure_future(increment(start, len(random_list)))
-    tasks.append(task)
+    for i in range(count_process):
+        tasks = []
+        task = asyncio.ensure_future(increment(result_list[i]))
+        tasks.append(task)
 
-    # for i in range(count_threads):
-    #     if i < rest:
-    #         stop = start + part_size + 1
-    #     else:
-    #         stop = start + part_size
-    #     task = asyncio.ensure_future(increment(start, stop))
-    #     tasks.append(task)
-    #     start = stop
-    await asyncio.gather(*tasks)
+        await asyncio.gather(*tasks)
 
 
 if __name__ == '__main__':
