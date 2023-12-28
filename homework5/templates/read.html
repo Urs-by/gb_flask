@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h4>Весь справочник</h4>
+</div>
+<div class="container">
+    {% for contact in contacts %}
+        <div class="container">
+            <p>Фамилия: {{ contact.username }}</p>
+            <p>Имя: {{ contact.name }}</p>
+            <p>Номер телефона: {{ contact.base_phone_number }}</p>
+            <p>Доп. номер телефона: {{ contact.additional_phone_number }}</p>
+        </div>
+    {% endfor %}
+    <br>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h4>Добавить запись</h4>
+</div>
+<div class="container">
+    <form action="/add" method=post>
+        <input type="text" name="username" placeholder="Фамилия">
+        <input type="text" name="name" placeholder="Имя">
+        <input type="number" name="base_phone_number" placeholder="Номер телефона">
+        <input type="number" name="additional_phone_number" placeholder="Доп. номер телефона">
+        <input type="submit">
+    </form>
+</div>   
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h4>Удалить запись</h4>
+</div>
+<div>
+    <div class="container">
+        <form action="/update" method="post">
+            <input type="text" number="username" placeholder="Номер телефона">
+            <input type="submit">
+        </form>
+    </div>
+</div>
+{% endblock %}
