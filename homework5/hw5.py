@@ -17,9 +17,9 @@ async def root(request: Request):
     return templates.TemplateResponse("/index.html", {"request": request})
 
 
-# @app.get("/read", response_class=HTMLResponse)
-# async def read_item(request: Request):
-#     return templates.TemplateResponse("/read.html", {"phonebook_db": phonebook_db,"request": request})
+@app.get("/read", response_class=HTMLResponse)
+async def read_item(request: Request):
+    return templates.TemplateResponse("/read.html", {"phonebook_db": phonebook_db,"request": request})
 
 
 @app.get('/add', response_class=HTMLResponse)

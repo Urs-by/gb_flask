@@ -5,13 +5,15 @@
     <h4>Весь справочник</h4>
 </div>
 <div class="container">
-    {% for contact in contacts %}
+    {% for contact in phonebook_db %}
         <div class="container">
-            <p>Фамилия: {{ contact.username }}</p>
-            <p>Имя: {{ contact.name }}</p>
-            <p>Номер телефона: {{ contact.base_phone_number }}</p>
-            <p>Доп. номер телефона: {{ contact.additional_phone_number }}</p>
+            <li>{{ contact.surname }} {{ contact.name }} - тел.{{ contact.base_phone_number }}
+            {% if contact.additional_phone_number %}
+                , доп. {{ contact.additional_phone_number }}
+            {% endif %}
+            </li>
         </div>
+    <br>
     {% endfor %}
     <br>
 </div>
