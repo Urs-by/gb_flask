@@ -6,11 +6,15 @@
 </div>
 <div class="container">
     <form action="/add" method=post>
-        <input type="text" name="username" placeholder="Фамилия">
-        <input type="text" name="name" placeholder="Имя">
-        <input type="number" name="base_phone_number" placeholder="Номер телефона">
+        <input type="text" name="surname" placeholder="Фамилия *">
+        <input type="text" name="firstname" placeholder="Имя">
+        <input type="number" name="base_phone_number" placeholder="Номер телефона *">
         <input type="number" name="additional_phone_number" placeholder="Доп. номер телефона">
         <input type="submit">
     </form>
+    <br>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
 </div>   
 {% endblock %}

@@ -6,9 +6,9 @@ from fastapi.templating import Jinja2Templates
 app = FastAPI()
 templates = Jinja2Templates(directory="./templates")
 
-phonebook_db: list[Phonebook] = [Phonebook(surname='Хой', name='Иван', base_phone_number=9754545454545, additional_phone_number=0),
-                                  Phonebook(surname='КУЦ', name='Artur', base_phone_number=9754554545, additional_phone_number=123)]
-
+phonebook_db: list[Phonebook] = [
+    Phonebook(surname='Хой', name='Иван', base_phone_number=9754545454545, additional_phone_number=0),
+    Phonebook(surname='КУЦ', name='Artur', base_phone_number=9754554545, additional_phone_number=123)]
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -19,7 +19,7 @@ async def root(request: Request):
 
 @app.get("/read", response_class=HTMLResponse)
 async def read_item(request: Request):
-    return templates.TemplateResponse("/read.html", {"phonebook_db": phonebook_db,"request": request})
+    return templates.TemplateResponse("/read.html", {"phonebook_db": phonebook_db, "request": request})
 
 
 @app.get('/add', response_class=HTMLResponse)
@@ -30,10 +30,21 @@ async def add_item(request: Request):
 #
 #
 @app.post('/add', response_class=HTMLResponse)
-async def create_record(record: Phonebook, request: Request):
-    phonebook_db.append(record)
+async def create_record(request: Request, surname=Form(None), firstname=Form(None),
+                        base_phone_number=Form(None),
+                        additional_phone_number=Form(None)):
+    if not surname or not base_phone_number:
+        message = 'Заполните обязательные поля'
+        return templates.TemplateResponse("/add.html", {"request": request, "message": message})
+    else:
+        record = Phonebook(surname=surname, name=firstname, base_phone_number=base_phone_number,
+                           additional_phone_number=additional_phone_number)
 
-    return templates.TemplateResponse("/add.html", {"request": request, "phonebook": phonebook_db})
+        phonebook_db.append(record)
+        message = f'Запись с номером телефона {record.base_phone_number} добавлена'
+        return templates.TemplateResponse("/add.html", {"request": request, "message": message})
+
+
 #
 #
 @app.get('/update', response_class=HTMLResponse)
