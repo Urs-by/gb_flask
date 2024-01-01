@@ -68,14 +68,21 @@ async def add_item(request: Request):
 #
 #
 @app.get('/delete', response_class=HTMLResponse)
-async def add_item(request: Request):
+async def delete_form(request: Request):
     return templates.TemplateResponse("/delete.html", {"request": request})
 
-#
-# @app.delete('/delete')
-# async def delete_record(phone_number: int):
-#     for i in phonebook:
-#         if i.base_phone_number == phone_number or i.additional_phone_number == phone_number:
-#             phonebook.remove(i)
-#             return phonebook
-#     return f'Запись с номером {phone_number} не существует'
+
+@app.post('/delete', response_class=HTMLResponse)
+async def delete_record(request: Request, phone_number=Form(None)):
+    if not phone_number:
+        message = 'Введите номер телефона'
+        return templates.TemplateResponse("/delete.html", {"request": request, "message": message})
+    else:
+        phone_number = int(phone_number)
+        for i in phonebook_db:
+            if i.base_phone_number == phone_number or i.additional_phone_number == phone_number:
+                phonebook_db.remove(i)
+                message = f'Запись с номером телефона {phone_number} удалена'
+                return templates.TemplateResponse("/delete.html", {"request": request, "message": message})
+        mesage = f'Запись с номером телефона {phone_number} не существует'
+        return templates.TemplateResponse("/delete.html", {"request": request, "message": mesage})

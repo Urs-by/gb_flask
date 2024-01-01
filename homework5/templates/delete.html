@@ -6,10 +6,18 @@
 </div>
 <div>
     <div class="container">
-        <form action="/update" method="post">
-            <input type="text" number="username" placeholder="Номер телефона">
+        <form action="/delete" method="post">
+            <input type="text" name="phone_number" placeholder="Номер телефона">
+            <input type="hidden" name="_method" value="delete">
             <input type="submit">
         </form>
     </div>
+    <br>
+    <div class="container">
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+    </div>
+
 </div>
 {% endblock %}
