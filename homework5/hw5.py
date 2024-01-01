@@ -7,8 +7,8 @@ app = FastAPI()
 templates = Jinja2Templates(directory="./templates")
 
 phonebook_db: list[Phonebook] = [
-    Phonebook(surname='Хой', name='Иван', base_phone_number=9754545454545, additional_phone_number=0),
-    Phonebook(surname='КУЦ', name='Artur', base_phone_number=9754554545, additional_phone_number=123)]
+    Phonebook(surname='Хой', name='Иван', base_phone_number=375, additional_phone_number=0),
+    Phonebook(surname='КУЦ', name='Artur', base_phone_number=372, additional_phone_number=123)]
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -52,21 +52,39 @@ async def add_item(request: Request):
     return templates.TemplateResponse("/update.html", {"request": request})
 
 
-#
-#
-# @app.put('/update/{phone_number}')
-# async def update_record(phone_number: int, record: Phonebook):
-#     for i in phonebook:
-#         if i.base_phone_number == phone_number or i.additional_phone_number == phone_number:
-#             i.surname = record.surname
-#             i.name = record.name
-#             i.base_phone_number = record.base_phone_number
-#             i.additional_phone_number = record.additional_phone_number
-#         else:
-#             return f'Запись с номером {phone_number} не существует'
-#     return phonebook
-#
-#
+@app.post('/update', response_class=HTMLResponse)
+async def update_record(request: Request, phone_number=Form(None)):
+    if not phone_number:
+        message = 'Введите номер телефона'
+        return templates.TemplateResponse("/update.html", {"request": request, "message": message})
+    else:
+        phone_number = int(phone_number)
+        for i in phonebook_db:
+            if i.base_phone_number == phone_number or i.additional_phone_number == phone_number:
+                record = i
+                return templates.TemplateResponse("/inupdate.html", {"request": request, "record": record})
+        message = f'Запись с номером телефона {phone_number} не существует'
+        return templates.TemplateResponse("/update.html", {"request": request, "message": message})
+
+@app.post('/inupdate', response_class=HTMLResponse)
+async def update_record( request: Request, surname=Form(None), firstname=Form(None),
+                        base_phone_number=Form(None),
+                        additional_phone_number=Form(None), oldrecord=Form(None)):
+    phone_number = int(oldrecord)
+    for i in phonebook_db:
+        if i.base_phone_number == phone_number or i.additional_phone_number == phone_number:
+            if surname:
+                i.surname = surname
+            if firstname:
+                i.name = firstname
+            if base_phone_number:
+                i.base_phone_number = int(base_phone_number)
+            if additional_phone_number:
+                i.additional_phone_number = int(additional_phone_number)
+            message = f'Запись с номером телефона {oldrecord} обновлена'
+            return templates.TemplateResponse("/inupdate.html", {"request": request, "message": message})
+
+
 @app.get('/delete', response_class=HTMLResponse)
 async def delete_form(request: Request):
     return templates.TemplateResponse("/delete.html", {"request": request})
@@ -84,5 +102,5 @@ async def delete_record(request: Request, phone_number=Form(None)):
                 phonebook_db.remove(i)
                 message = f'Запись с номером телефона {phone_number} удалена'
                 return templates.TemplateResponse("/delete.html", {"request": request, "message": message})
-        mesage = f'Запись с номером телефона {phone_number} не существует'
-        return templates.TemplateResponse("/delete.html", {"request": request, "message": mesage})
+        message = f'Запись с номером телефона {phone_number} не существует'
+        return templates.TemplateResponse("/delete.html", {"request": request, "message": message})

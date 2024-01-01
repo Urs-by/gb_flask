@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h4>Редактировать запись</h4>
+</div>
+<div class="container">
+    <form action="/inupdate" method=post>
+        {% if record %}
+            <input type="text" name="surname" placeholder="{{ record.surname }}">
+            <input type="text" name="firstname" placeholder="{{ record.name }}">
+            <input type="number" name="base_phone_number"  placeholder="{{ record.base_phone_number }}">
+            <input type="number" name="additional_phone_number" placeholder="{{ record.additional_phone_number }}">
+            <input type="hidden"  name="oldrecord" value="{{ record.base_phone_number }}">
+            <input type="submit">
+        {% endif %}
+
+
+    </form>
+    <br>
+
+<!--    <div class="container">-->
+<!--        {% if record %}-->
+<!--        <p> Редактируемая запись: {{ record.surname }} {{ record.name }} - тел.{{ record.base_phone_number }}-->
+<!--            {% if record.additional_phone_number %}-->
+<!--            , доп. {{ record.additional_phone_number }}-->
+<!--            {% endif %}-->
+<!--        </p>-->
+<!--        {% endif %}-->
+<!--    </div>-->
+    <br>
+
+
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+</div>
+{% endblock %}
