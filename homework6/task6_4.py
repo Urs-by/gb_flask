@@ -34,11 +34,11 @@ async def shutdown():
 
 @app.get("/")
 async def root():
-    return {"message": "Hello hw6"}
+    return {"message": "Hello hw6_4"}
 
 
 @app.get("/tasks/", response_model=List[TaskOut])
-async def read_users():
+async def read_tasks():
     query = tasks_db.select()
     return await database.fetch_all(query)
 
